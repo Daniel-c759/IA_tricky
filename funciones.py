@@ -155,15 +155,16 @@ def ubicarEnCampo(campo:ndarray, valor:str)->ndarray:
     nuevo_campo=mover(campo,[row,col],"J1")
     return nuevo_campo
 
-def min_value(campo:ndarray)->any:
-    if final(campo):
-        return utilidad(campo)
+def min_value(campo:ndarray, prof:int=7)->any:
+    print("-"*10+"CALCULANDO"+"-"*10)
+    if (final(campo)) | (prof==0):
+        return utilidad(campo),0
     v=10000
     jugador="CPU"
     mejor=0
     f,c=opcionesMov(campo)
-    for coord in enumerate(zip(f,c)):
-        d,mejor=max_value(mover(campo,list(coord),jugador))
+    for coord in zip(f,c):
+        d, p=max_value(mover(campo,list(coord),jugador), prof-1)
         if min(v,d)==v:
             next
         else:
@@ -171,15 +172,15 @@ def min_value(campo:ndarray)->any:
             mejor=list(coord)
     return v,mejor
 
-def max_value(campo:ndarray)->any:
-    if final(campo):
-        return utilidad(campo)
+def max_value(campo:ndarray, prof:int=2)->any:
+    if final(campo) | (prof==0):
+        return utilidad(campo), 0
     v=-10000
     jugador="J1"
     mejor=0
     f,c=opcionesMov(campo)
-    for indice,coord in enumerate(zip(f,c)):
-        d,mejor=min_value(mover(campo,list(coord),jugador))
+    for coord in zip(f,c):
+        d,p=min_value(mover(campo,list(coord),jugador), prof-1)
         if max(v,d)==v:
             next
         else:

@@ -2,6 +2,12 @@ import funciones as fn
 
 
 if __name__=="__main__":
+    dificultad=int(input("""
+Por favor seleccione la dificultad que prefiere para el juego:
+1. facil
+2. Media
+3. dificil 
+"""))
     print("-"*7+"CAMPO DE JUEGO"+"-"*7)
     campo=fn.iniciar_campo()
     turnos=9
@@ -24,11 +30,25 @@ if __name__=="__main__":
                 break
             else:
                 print("\nTURNO CPU")
-                bm,v=fn.mejor_mov(campo)
-                campo=fn.mover(campo,bm,"CPU")
-                print(campo)
-                turnos-=1
-                next
+                #bm,v=fn.mejor_mov(campo)
+                if dificultad==1:
+                    v, bm=fn.min_value(campo,1)
+                    campo=fn.mover(campo,bm,"CPU")
+                    print(campo)
+                    turnos-=1
+                    next
+                elif dificultad==2:
+                    v, bm=fn.min_value(campo,3)
+                    campo=fn.mover(campo,bm,"CPU")
+                    print(campo)
+                    turnos-=1
+                    next
+                else:
+                    v, bm=fn.min_value(campo,7)
+                    campo=fn.mover(campo,bm,"CPU")
+                    print(campo)
+                    turnos-=1
+                    next
         else:
             break
     ganador=fn.ganador(campo)
